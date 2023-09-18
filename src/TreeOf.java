@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class TreeOf {
     static Node append(Node node, int value) {
         if (node == null) {
@@ -50,6 +53,31 @@ public class TreeOf {
         }
         return node;
     }
+
+    static void centeredBypass(Node node){
+        if (node != null){
+            centeredBypass(node.left);
+            System.out.println(node.value);
+            centeredBypass(node.right);
+        }
+    }
+
+    static void straight(Node node){
+        if (node != null){
+            System.out.println(node.value);
+            straight(node.left);
+            straight(node.right);
+        }
+    }
+
+    static void reverse(Node node){
+        if (node != null){
+            reverse(node.left);
+            reverse(node.right);
+            System.out.println(node.value);
+        }
+    }
+
     static class BinaryTree {
         Node root;
         public void add(int value) {
@@ -60,6 +88,20 @@ public class TreeOf {
         }
         public void delete(int value){
             root = deleteOfNode(root, value);
+        }
+        public void  wideBypass(){
+            if (root == null){return;}
+
+            Queue<Node> nodes = new LinkedList<>();
+            nodes.add(root);
+
+            while (!nodes.isEmpty()){
+                Node node = nodes.remove();
+                System.out.print(node.value + " ");
+
+                if (node.left != null){nodes.add(node.left);}
+                if (node.right != null){nodes.add(node.right);}
+            }
         }
     }
     public static void main(String[] args) {
@@ -77,10 +119,15 @@ public class TreeOf {
         System.out.println(tree.contains(1));
         System.out.println(tree.contains(8));
 
-        tree.delete(8);
-        System.out.println(tree.contains(8));
+//        tree.delete(8);
+//        System.out.println(tree.contains(8));
 
+        centeredBypass(tree.root);//Симметричный обход
+        System.out.println("");
+        straight(tree.root);//Прямой обход
+        System.out.println("");
+        reverse(tree.root);//Обратный обход
 
-
+        tree.wideBypass();//Обход в ширинуч
     }
 }
